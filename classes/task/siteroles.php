@@ -161,8 +161,11 @@ class siteroles extends \core\task\scheduled_task {
             }
 
             // Write user to role in site context.
-            if ($userid !== '' && $roleid !== '' && $contextid !== '') {
-                role_assign($roleid, $userid->id, $contextid);
+            if ($userid !== '' && $roleid !== '' && $catcontextid !== '') {
+                if ($DB->get_record('role_assignments',
+                    array('roleid' => $roleid, 'userid' => $userid->id, 'contextid' => $catcontextid))) {
+                    role_assign($roleid, $userid->id, $catcontextid);
+                }
             }
         }
 
